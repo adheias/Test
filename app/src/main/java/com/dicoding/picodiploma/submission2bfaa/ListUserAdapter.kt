@@ -40,7 +40,7 @@ class ListUserAdapter : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
                         .apply(RequestOptions().override(55, 55))
                         .into(imgItemPhoto)
 
-                tvNama.text = user.name
+                tvName.text = user.name
                 tvUsername.text = user.username
 
                 itemView.setOnClickListener { onItemClickCallback?.onItemClicked(user) }

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Submission 2 BFAA</string>
     <string name="username">Username</string>
-    <string name="name">\@%s</string>
+    <string name="name">Name</string>
     <string name="search">Search</string>
     <string name="search_hint">Masukkan kata</string>
 </resources>

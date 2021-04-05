@@ -19,10 +19,9 @@ class MainViewModel : ViewModel() {
 
     fun setUser(users: String) {
         val listItem = ArrayList<User>()
-        val apiKey = "token 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"
-        val url = "https://api.github.com/search/users?q=${users}"
+        val url = "https://api.github.com/search/users?q=$users"
         val asyncClient = AsyncHttpClient()
-        asyncClient.addHeader("Authorization", apiKey)
+        asyncClient.addHeader("Authorization", "token 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")
         asyncClient.addHeader("User-Agent", "request")
         asyncClient.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<out Header>, responseString: ByteArray) {
@@ -35,9 +34,11 @@ class MainViewModel : ViewModel() {
                         val item = items.getJSONObject(i)
                         val username = item.getString("login")
                         val avatar = item.getString("avatar_url")
+                        val name = item.getString("name")
                         val user = User( )
                         user.username = username
                         user.avatar = avatar
+                        user.name = name
                         listItem.add(user)
                     }
                     listUser.postValue(listItem)
