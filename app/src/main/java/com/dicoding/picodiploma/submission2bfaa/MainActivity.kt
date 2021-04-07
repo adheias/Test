@@ -2,6 +2,7 @@ package com.dicoding.picodiploma.submission2bfaa
 
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         adapter = ListUserAdapter()
         adapter.notifyDataSetChanged()
         binding.rvUser.adapter = adapter
+        showLoading(false)
 
         adapter.setOnItemClickCallback(object : ListUserAdapter.OnItemClickCallback {
             override fun onItemClicked(data: User) {
@@ -48,7 +50,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showSelectedUser(user: User) {
-        Toast.makeText(this, "Kamu memilih ${user.name}", Toast.LENGTH_SHORT).show()
+        val moveIntent = Intent(this@MainActivity, DetailUser::class.java)
+        moveIntent.putExtra(DetailUser.EXTRA_USER, user)
+        startActivity(moveIntent)
     }
 
     private fun showLoading(state: Boolean) {

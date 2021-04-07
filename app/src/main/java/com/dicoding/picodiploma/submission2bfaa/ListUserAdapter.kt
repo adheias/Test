@@ -37,11 +37,11 @@ class ListUserAdapter : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
             with(binding) {
                 Glide.with(itemView.context)
                         .load(user.avatar)
-                        .apply(RequestOptions().override(55, 55))
+                        .apply(RequestOptions().override(70,70))
                         .into(imgItemPhoto)
 
-                tvName.text = user.name
                 tvUsername.text = user.username
+                tvName.text = user.name
 
                 itemView.setOnClickListener { onItemClickCallback?.onItemClicked(user) }
             }

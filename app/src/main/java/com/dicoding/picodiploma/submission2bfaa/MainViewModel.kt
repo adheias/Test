@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
@@ -31,14 +32,8 @@ class MainViewModel : ViewModel() {
                     val responseObjects = JSONObject(result)
                     val items = responseObjects.getJSONArray("items")
                     for (i in 0 until items.length()) {
-                        val item = items.getJSONObject(i)
-                        val username = item.getString("login")
-                        val avatar = item.getString("avatar_url")
-                        val name = item.getString("name")
-                        val user = User( )
-                        user.username = username
-                        user.avatar = avatar
-                        user.name = name
+                        val gson = Gson()
+                        val user = gson.fromJson(items.getJSONObject(i).toString(), User::class.java)
                         listItem.add(user)
                     }
                     listUser.postValue(listItem)

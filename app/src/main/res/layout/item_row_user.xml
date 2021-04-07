@@ -24,7 +24,7 @@
         android:layout_marginStart="95dp"
         android:layout_marginTop="24dp"
         android:text="@string/username"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/img_item_photo"
         app:layout_constraintTop_toTopOf="parent" />
