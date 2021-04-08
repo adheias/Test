@@ -14,7 +14,7 @@ class SectionsPagerAdapter(activity: AppCompatActivity) : FragmentStateAdapter(a
         var fragment: Fragment? = null
         when (position) {
             0 -> fragment = FollowersFragment.newInstance(username)
-            1 -> fragment = FollowingFragment()
+            1 -> fragment = FollowingFragment.newInstance(username)
         }
         return fragment as Fragment
     }

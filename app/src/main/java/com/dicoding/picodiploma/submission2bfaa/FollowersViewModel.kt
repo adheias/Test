@@ -3,13 +3,14 @@ package com.dicoding.picodiploma.submission2bfaa
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
 import org.json.JSONObject
 
-class FollowersViewModel {
+class FollowersViewModel : ViewModel() {
 
     companion object {
         private val TAG = FollowersViewModel::class.java.simpleName
@@ -21,7 +22,7 @@ class FollowersViewModel {
         val listItemFollowers = ArrayList<User>()
         val url = "https://api.github.com/users/${users}/followers"
         val asyncClient = AsyncHttpClient()
-        asyncClient.addHeader("Authorization", "token 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")
+        asyncClient.addHeader("Authorization", "token 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")
         asyncClient.addHeader("User-Agent", "request")
         asyncClient.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<out Header>, responseBody: ByteArray) {

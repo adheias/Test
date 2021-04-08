@@ -5,9 +5,10 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.dicoding.picodiploma.submission2bfaa.databinding.ActivityDetailUserBinding
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class DetailUser : AppCompatActivity() {
@@ -31,9 +32,9 @@ class DetailUser : AppCompatActivity() {
         detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(DetailViewModel::class.java)
         val user = intent.getParcelableExtra<User>(EXTRA_USER) as User
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
-        val viewPager = binding.viewPager
+        val viewPager: ViewPager2 = binding.viewPager
         viewPager.adapter = sectionsPagerAdapter
-        val tabs = binding.tabs
+        val tabs: TabLayout = binding.tabs
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = resources.getString(
                     TAB_TITLES[position])
@@ -51,7 +52,6 @@ class DetailUser : AppCompatActivity() {
             binding.apply {
                 Glide.with(this@DetailUser)
                         .load(it.avatar)
-                        .apply(RequestOptions())
                         .into(imgItemPhoto)
                 tvRepo2.text = it.repository
                 tvFollowers2.text = it.followers

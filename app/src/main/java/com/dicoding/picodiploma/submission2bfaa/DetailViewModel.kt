@@ -21,7 +21,7 @@ class DetailViewModel : ViewModel() {
     fun setDetailUser(users: String) {
         val url = "https://api.github.com/users/${users}"
         val asyncClient = AsyncHttpClient()
-        asyncClient.addHeader("Authorization", "token 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")
+        asyncClient.addHeader("Authorization", "token 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")
         asyncClient.addHeader("User-Agent", "request")
         asyncClient.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(

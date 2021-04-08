@@ -23,10 +23,10 @@ class FollowersFragment : Fragment() {
         }
     }
 
-    private var _binding: FragmentFollowersBinding? = null
+private var _binding: FragmentFollowersBinding? = null
     private lateinit var adapter: ListUserAdapter
     private lateinit var followersViewModel: FollowersViewModel
-    private val binding get() = _binding
+    private val binding get() = _binding!!
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -34,20 +34,42 @@ class FollowersFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentFollowersBinding.inflate(inflater, container, false)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.rvFollowers?.setHasFixedSize(true)
-        binding?.rvFollowers?.layoutManager = LinearLayoutManager(activity)
+        binding.rvFollowers.setHasFixedSize(true)
+        showRecyclerView()
+        setFollowers()
+    }
 
-        val username = arguments?.getString(ARG_USERNAME)
-
+    private fun showRecyclerView() {
+        binding.rvFollowers.layoutManager = LinearLayoutManager(activity)
+        adapter = ListUserAdapter()
         adapter.notifyDataSetChanged()
-        binding?.rvFollowers?.adapter = adapter
+        binding.rvFollowers.adapter = adapter
+    }
 
-        followersViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(FollowersViewModel::class.java)
+    private fun setFollowers() {
+        if (arguments != null) {
+            val username = arguments?.getString(ARG_USERNAME)
+            followersViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(FollowersViewModel::class.java)
+
+            if (username != null)
+                followersViewModel.setFollowers(username)
+        }
+
+        followersViewModel.getFollowers().observe(viewLifecycleOwner, { listFollowers ->
+            if (listFollowers != null) {
+                adapter.setData(listFollowers)
+            }
+        })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
 

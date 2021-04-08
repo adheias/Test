@@ -10,46 +10,45 @@ import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
 import org.json.JSONObject
 
-class MainViewModel : ViewModel() {
+class FollowingViewModel : ViewModel() {
 
     companion object {
-        private val TAG = MainViewModel::class.java.simpleName
+        private val TAG = FollowingViewModel::class.java.simpleName
     }
 
-    private val listUser = MutableLiveData<ArrayList<User>>()
+    private val listFollowing = MutableLiveData<ArrayList<User>>()
 
-    fun setUser(users: String) {
-        val listItem = ArrayList<User>()
-        val url = "https://api.github.com/search/users?q=$users"
+    fun setFollowing(users: String) {
+        val listItemFollowing = ArrayList<User>()
+        val url = "https://api.github.com/users/${users}/following"
         val asyncClient = AsyncHttpClient()
         asyncClient.addHeader("Authorization", "token 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")
         asyncClient.addHeader("User-Agent", "request")
         asyncClient.get(url, object : AsyncHttpResponseHandler() {
-            override fun onSuccess(statusCode: Int, headers: Array<out Header>, responseBody: ByteArray) {
+            override fun onSuccess(statusCode: Int, headers: Array<out Header>?, responseBody: ByteArray) {
                 val result = String(responseBody)
                 Log.d(TAG, result)
                 try {
                     val responseObjects = JSONObject(result)
-                    val items = responseObjects.getJSONArray("items")
-                    for (i in 0 until items.length()) {
+                    for (i in 0 until responseObjects.length()) {
                         val gson = Gson()
-                        val user = gson.fromJson(items.getJSONObject(i).toString(), User::class.java)
-                        listItem.add(user)
+                        val user = gson.fromJson(responseObjects.getJSONObject(i.toString()).toString(), User::class.java)
+                        listItemFollowing.add(user)
                     }
-                    listUser.postValue(listItem)
+                    listFollowing.postValue(listItemFollowing)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
 
-            override fun onFailure(statusCode: Int, headers: Array<out Header>, responseBody: ByteArray, error: Throwable) {
-                Log.d("onFailure", error.message.toString())
+            override fun onFailure(statusCode: Int, headers: Array<out Header>?, responseBody: ByteArray?, error: Throwable?) {
+                Log.d("onFailure", error?.message.toString())
             }
 
         })
     }
 
-    fun getUser(): LiveData<ArrayList<User>> {
-        return listUser
+    fun getFollowing(): LiveData<ArrayList<User>> {
+        return listFollowing
     }
 }
