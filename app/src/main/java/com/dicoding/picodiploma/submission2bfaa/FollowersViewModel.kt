@@ -3,24 +3,23 @@ package com.dicoding.picodiploma.submission2bfaa
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
 import org.json.JSONObject
 
-class MainViewModel : ViewModel() {
+class FollowersViewModel {
 
     companion object {
-        private val TAG = MainViewModel::class.java.simpleName
+        private val TAG = FollowersViewModel::class.java.simpleName
     }
 
-    private val listUser = MutableLiveData<ArrayList<User>>()
+    private val listFollowers = MutableLiveData<ArrayList<User>>()
 
-    fun setUser(users: String) {
-        val listItem = ArrayList<User>()
-        val url = "https://api.github.com/search/users?q=$users"
+    fun setFollowers(users: String) {
+        val listItemFollowers = ArrayList<User>()
+        val url = "https://api.github.com/users/${users}/followers"
         val asyncClient = AsyncHttpClient()
         asyncClient.addHeader("Authorization", "token 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")
         asyncClient.addHeader("User-Agent", "request")
@@ -30,26 +29,25 @@ class MainViewModel : ViewModel() {
                 Log.d(TAG, result)
                 try {
                     val responseObjects = JSONObject(result)
-                    val items = responseObjects.getJSONArray("items")
-                    for (i in 0 until items.length()) {
+                    for (i in 0 until responseObjects.length()) {
                         val gson = Gson()
-                        val user = gson.fromJson(items.getJSONObject(i).toString(), User::class.java)
-                        listItem.add(user)
+                        val user = gson.fromJson(responseObjects.getJSONObject(i.toString()).toString(), User::class.java)
+                        listItemFollowers.add(user)
                     }
-                    listUser.postValue(listItem)
+                    listFollowers.postValue(listItemFollowers)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
 
-            override fun onFailure(statusCode: Int, headers: Array<out Header>, responseBody: ByteArray, error: Throwable) {
-                Log.d("onFailure", error.message.toString())
+            override fun onFailure(statusCode: Int, headers: Array<out Header>?, responseBody: ByteArray?, error: Throwable?) {
+                Log.d("onFailure", error?.message.toString())
             }
 
         })
     }
 
-    fun getUser(): LiveData<ArrayList<User>> {
-        return listUser
+    fun getFollowers(): LiveData<ArrayList<User>> {
+        return listFollowers
     }
 }

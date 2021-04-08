@@ -1,53 +1,73 @@
 package com.dicoding.picodiploma.submission2bfaa
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.View
 import androidx.annotation.StringRes
-import androidx.viewpager2.widget.ViewPager2
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.google.android.material.tabs.TabLayout
+import com.bumptech.glide.request.RequestOptions
+import com.dicoding.picodiploma.submission2bfaa.databinding.ActivityDetailUserBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
 class DetailUser : AppCompatActivity() {
 
-    companion object{
+    companion object {
         @StringRes
         private val TAB_TITLES = intArrayOf(
-            R.string.tab_text_1,
-            R.string.tab_text_2
+                R.string.tab_text_1,
+                R.string.tab_text_2
         )
         const val EXTRA_USER = "extra_user"
     }
 
+    private lateinit var binding: ActivityDetailUserBinding
+    private lateinit var detailViewModel: DetailViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_user)
+        binding = ActivityDetailUserBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(DetailViewModel::class.java)
         val user = intent.getParcelableExtra<User>(EXTRA_USER) as User
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
-        val viewPager: ViewPager2 = findViewById(R.id.view_pager)
+        val viewPager = binding.viewPager
         viewPager.adapter = sectionsPagerAdapter
-        val tabs: TabLayout = findViewById(R.id.tabs)
-        TabLayoutMediator(tabs, viewPager) {tab, position ->
-            tab.text = resources.getString(TAB_TITLES[position])
+        val tabs = binding.tabs
+        TabLayoutMediator(tabs, viewPager) { tab, position ->
+            tab.text = resources.getString(
+                    TAB_TITLES[position])
         }.attach()
         supportActionBar?.elevation = 0f
         supportActionBar?.title = user.username
 
-//        val photo: ImageView = findViewById(R.id.img_item_photo)
-//        val name: TextView = findViewById(R.id.tv_name)
-//        val location: TextView = findViewById(R.id.tv_location)
-//        val repo: TextView = findViewById(R.id.tv_repo2)
-//        val followers: TextView = findViewById(R.id.tv_followers2)
-//        val following: TextView = findViewById(R.id.tv_following2)
-//
-////        photo.setImageResource(user.avatar)
-//        name.text = user.name
-//        location.text = user.location
-//        repo.text = user.repository
-//        followers.text = user.followers
-//        following.text = user.following
+        user.username.let {
+            if (it != null) {
+                detailViewModel.setDetailUser(it)
+            }
+        }
 
+        detailViewModel.getDetailUser().observe(this, {
+            binding.apply {
+                Glide.with(this@DetailUser)
+                        .load(it.avatar)
+                        .apply(RequestOptions())
+                        .into(imgItemPhoto)
+                tvRepo2.text = it.repository
+                tvFollowers2.text = it.followers
+                tvFollowing2.text = it.following
+                tvName.text = it.name
+                tvLocation.text = it.location
+            }
+            showLoading(false)
+        })
+    }
+
+    private fun showLoading(state: Boolean) {
+        if (state) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
+        }
     }
 }
