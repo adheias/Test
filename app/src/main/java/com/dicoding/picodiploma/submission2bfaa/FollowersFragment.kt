@@ -66,11 +66,4 @@ private var _binding: FragmentFollowersBinding? = null
             }
         })
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
-
 }
