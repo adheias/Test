@@ -8,7 +8,7 @@ import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
-import org.json.JSONObject
+import org.json.JSONArray
 
 class FollowingViewModel : ViewModel() {
 
@@ -20,19 +20,19 @@ class FollowingViewModel : ViewModel() {
 
     fun setFollowing(users: String) {
         val listItemFollowing = ArrayList<User>()
-        val url = "https://api.github.com/users/${users}/following"
+        val url = "https://api.github.com/users/$users/following"
         val asyncClient = AsyncHttpClient()
-        asyncClient.addHeader("Authorization", "token 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")
+        asyncClient.addHeader("Authorization", "token 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")
         asyncClient.addHeader("User-Agent", "request")
         asyncClient.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<out Header>?, responseBody: ByteArray) {
                 val result = String(responseBody)
                 Log.d(TAG, result)
                 try {
-                    val responseObjects = JSONObject(result)
+                    val responseObjects = JSONArray(result)
                     for (i in 0 until responseObjects.length()) {
                         val gson = Gson()
-                        val user = gson.fromJson(responseObjects.getJSONObject(i.toString()).toString(), User::class.java)
+                        val user = gson.fromJson(responseObjects.getJSONObject(i).toString(), User::class.java)
                         listItemFollowing.add(user)
                     }
                     listFollowing.postValue(listItemFollowing)

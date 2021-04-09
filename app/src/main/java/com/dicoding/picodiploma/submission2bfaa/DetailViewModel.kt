@@ -19,9 +19,9 @@ class DetailViewModel : ViewModel() {
     val detailUser = MutableLiveData<User>()
 
     fun setDetailUser(users: String) {
-        val url = "https://api.github.com/users/${users}"
+        val url = "https://api.github.com/users/$users"
         val asyncClient = AsyncHttpClient()
-        asyncClient.addHeader("Authorization", "token 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")
+        asyncClient.addHeader("Authorization", "token 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")
         asyncClient.addHeader("User-Agent", "request")
         asyncClient.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(

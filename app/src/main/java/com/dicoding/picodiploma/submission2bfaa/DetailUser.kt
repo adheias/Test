@@ -32,6 +32,7 @@ class DetailUser : AppCompatActivity() {
         detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(DetailViewModel::class.java)
         val user = intent.getParcelableExtra<User>(EXTRA_USER) as User
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
+        sectionsPagerAdapter.username = user.username
         val viewPager: ViewPager2 = binding.viewPager
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = binding.tabs
@@ -42,11 +43,6 @@ class DetailUser : AppCompatActivity() {
         supportActionBar?.elevation = 0f
         supportActionBar?.title = user.username
 
-        user.username.let {
-            if (it != null) {
-                detailViewModel.setDetailUser(it)
-            }
-        }
 
         detailViewModel.getDetailUser().observe(this, {
             binding.apply {
