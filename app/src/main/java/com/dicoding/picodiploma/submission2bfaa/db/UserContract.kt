@@ -7,10 +7,10 @@ class UserContract {
 
     internal class UserColumns : BaseColumns {
         companion object {
-            const val TABLE_NAME = "favourite_user"
+            const val TABLE_NAME = "favorite_user"
             const val _ID = "_id"
             const val USERNAME = "username"
-            const val AVATAR = "avatar"
+            const val AVATAR = "avatarTEXTTEXTTEXT"
 
         }
 
