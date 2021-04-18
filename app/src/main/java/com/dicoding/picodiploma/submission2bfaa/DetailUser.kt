@@ -37,9 +37,6 @@ class DetailUser : AppCompatActivity() {
             ViewModelProvider.NewInstanceFactory()
         ).get(DetailViewModel::class.java)
         val user = intent.getParcelableExtra<User>(EXTRA_USER) as User
-        val username = user.username
-        val avatar = user.avatar
-        val id = user.id
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
         sectionsPagerAdapter.username = user.username
         val viewPager: ViewPager2 = binding.viewPager
@@ -80,9 +77,9 @@ class DetailUser : AppCompatActivity() {
         binding.fabAdd.setOnClickListener {
             if (!statusFavorite) {
                 val values = ContentValues()
-                values.put(UserContract.UserColumns.USERNAME, username)
-                values.put(UserContract.UserColumns.AVATAR, avatar)
-                values.put(UserContract.UserColumns._ID, id)
+                values.put(UserContract.UserColumns.USERNAME, user.username)
+                values.put(UserContract.UserColumns.AVATAR, user.avatar)
+                values.put(UserContract.UserColumns._ID, user.id)
                 statusFavorite = !statusFavorite
                 setStatusFavorite(statusFavorite)
             } else {
