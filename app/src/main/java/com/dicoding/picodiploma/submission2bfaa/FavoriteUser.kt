@@ -34,13 +34,14 @@ class FavoriteUser : AppCompatActivity() {
                 val cursor = userHelper.queryAll()
                 MappingHelper.mapCursorToArray(cursor)
             }
-            userHelper.close()
+
             val user = defferedUser.await()
             if (user.size > 0) {
                 adapter.mData = user
             } else {
                 adapter.mData = ArrayList()
             }
+            userHelper.close()
         }
     }
 
