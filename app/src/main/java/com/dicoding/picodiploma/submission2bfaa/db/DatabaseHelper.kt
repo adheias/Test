@@ -10,14 +10,10 @@ internal class DatabaseHelper(context: Context) :
 
     companion object {
         private const val DATABASE_NAME = "dbgithubapp"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
         private const val SQL_CREATE_TABLE_USER = "CREATE TABLE $TABLE_NAME" +
                 "(${UserContract.UserColumns._ID} INTEGER PRIMARY KEY," +
                 "${UserContract.UserColumns.USERNAME} TEXT NOT NULL," +
-                "${UserContract.UserColumns.LOCATION}TEXT NOT NULL," +
-                "${UserContract.UserColumns.REPOSITORY}TEXT NOT NULL," +
-                "${UserContract.UserColumns.FOLLOWERS}TEXT NOT NULL," +
-                "${UserContract.UserColumns.FOLLOWING}TEXT NOT NULL," +
                 "${UserContract.UserColumns.AVATAR}TEXT NOT NULL)"
     }
 

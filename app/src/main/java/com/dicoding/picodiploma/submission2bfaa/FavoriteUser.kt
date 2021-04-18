@@ -30,12 +30,12 @@ class FavoriteUser : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.Main) {
             val userHelper = UserHelper.getInstance(applicationContext)
             userHelper.open()
-            val defferedUser = async(Dispatchers.IO) {
+            val deferredUser = async(Dispatchers.IO) {
                 val cursor = userHelper.queryAll()
                 MappingHelper.mapCursorToArray(cursor)
             }
 
-            val user = defferedUser.await()
+            val user = deferredUser.await()
             if (user.size > 0) {
                 adapter.mData = user
             } else {

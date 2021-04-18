@@ -27,16 +27,22 @@ class DetailUser : AppCompatActivity() {
     private lateinit var binding: ActivityDetailUserBinding
     private lateinit var detailViewModel: DetailViewModel
     private lateinit var userHelper: UserHelper
+    private var statusFavorite = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        userHelper = UserHelper.getInstance(applicationContext)
+        userHelper.open()
         detailViewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.NewInstanceFactory()
+                this,
+                ViewModelProvider.NewInstanceFactory()
         ).get(DetailViewModel::class.java)
         val user = intent.getParcelableExtra<User>(EXTRA_USER) as User
+        val username = user.username.toString()
+        val avatar = user.avatar.toString()
+        val id = user.id
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
         sectionsPagerAdapter.username = user.username
         val viewPager: ViewPager2 = binding.viewPager
@@ -44,7 +50,7 @@ class DetailUser : AppCompatActivity() {
         val tabs: TabLayout = binding.tabs
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = resources.getString(
-                TAB_TITLES[position]
+                    TAB_TITLES[position]
             )
         }.attach()
         supportActionBar?.elevation = 0f
@@ -59,8 +65,8 @@ class DetailUser : AppCompatActivity() {
         detailViewModel.getDetailUser().observe(this, {
             binding.apply {
                 Glide.with(this@DetailUser)
-                    .load(it.avatar)
-                    .into(imgItemPhoto)
+                        .load(it.avatar)
+                        .into(imgItemPhoto)
                 tvRepo2.text = it.repository
                 tvFollowers2.text = it.followers
                 tvFollowing2.text = it.following
@@ -69,23 +75,21 @@ class DetailUser : AppCompatActivity() {
             }
         })
 
-        userHelper = UserHelper.getInstance(applicationContext)
-        userHelper.open()
 
-        var statusFavorite = false
+        val values = ContentValues()
+        values.put(UserContract.UserColumns._ID, id)
+        values.put(UserContract.UserColumns.USERNAME, username)
+        values.put(UserContract.UserColumns.AVATAR, avatar)
+
         setStatusFavorite(statusFavorite)
         binding.fabAdd.setOnClickListener {
-            if (!statusFavorite) {
-                val values = ContentValues()
-                values.put(UserContract.UserColumns.USERNAME, user.username)
-                values.put(UserContract.UserColumns.AVATAR, user.avatar)
-                values.put(UserContract.UserColumns._ID, user.id)
-                statusFavorite = !statusFavorite
-                setStatusFavorite(statusFavorite)
+            statusFavorite = !statusFavorite
+            if (statusFavorite) {
+                userHelper.insert(values)
             } else {
-                statusFavorite = !statusFavorite
-                setStatusFavorite(statusFavorite)
+                userHelper.deleteById("id")
             }
+            setStatusFavorite(statusFavorite)
         }
 
     }
