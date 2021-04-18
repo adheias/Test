@@ -1,10 +1,11 @@
-package com.dicoding.picodiploma.submission2bfaa
+package com.dicoding.picodiploma.submission2bfaa.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.submission2bfaa.databinding.ItemRowUserBinding
+import com.dicoding.picodiploma.submission2bfaa.model.User
 
 class ListUserAdapter : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
     var mData = ArrayList<User>()

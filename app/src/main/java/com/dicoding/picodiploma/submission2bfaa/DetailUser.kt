@@ -8,9 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.dicoding.picodiploma.submission2bfaa.adapter.SectionsPagerAdapter
 import com.dicoding.picodiploma.submission2bfaa.databinding.ActivityDetailUserBinding
 import com.dicoding.picodiploma.submission2bfaa.db.UserContract
 import com.dicoding.picodiploma.submission2bfaa.db.UserHelper
+import com.dicoding.picodiploma.submission2bfaa.model.User
+import com.dicoding.picodiploma.submission2bfaa.viewModel.DetailViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 

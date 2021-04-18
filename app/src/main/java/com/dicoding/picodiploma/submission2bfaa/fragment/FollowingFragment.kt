@@ -1,4 +1,4 @@
-package com.dicoding.picodiploma.submission2bfaa
+package com.dicoding.picodiploma.submission2bfaa.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.picodiploma.submission2bfaa.adapter.ListUserAdapter
 import com.dicoding.picodiploma.submission2bfaa.databinding.FragmentFollowingBinding
+import com.dicoding.picodiploma.submission2bfaa.viewModel.FollowingViewModel
 
 class FollowingFragment : Fragment() {
 

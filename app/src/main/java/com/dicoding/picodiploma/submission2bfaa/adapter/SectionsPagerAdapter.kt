@@ -1,8 +1,10 @@
-package com.dicoding.picodiploma.submission2bfaa
+package com.dicoding.picodiploma.submission2bfaa.adapter
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.dicoding.picodiploma.submission2bfaa.fragment.FollowersFragment
+import com.dicoding.picodiploma.submission2bfaa.fragment.FollowingFragment
 
 class SectionsPagerAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activity) {
     var username: String? = null

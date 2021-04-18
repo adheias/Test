@@ -1,41 +1,49 @@
-package com.dicoding.picodiploma.submission2bfaa
+package com.dicoding.picodiploma.submission2bfaa.viewModel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.dicoding.picodiploma.submission2bfaa.model.User
 import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
-import org.json.JSONObject
+import org.json.JSONArray
 
-class DetailViewModel : ViewModel() {
+class FollowingViewModel : ViewModel() {
 
     companion object {
-        private val TAG = DetailViewModel::class.java.simpleName
+        private val TAG = FollowingViewModel::class.java.simpleName
     }
 
-    val detailUser = MutableLiveData<User>()
+    private val listFollowing = MutableLiveData<ArrayList<User>>()
 
-    fun setDetailUser(users: String) {
-        val url = "https://api.github.com/users/$users"
+    fun setFollowing(users: String) {
+        val listItemFollowing = ArrayList<User>()
+        val url = "https://api.github.com/users/$users/following"
         val asyncClient = AsyncHttpClient()
-        asyncClient.addHeader("Authorization", "token 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")
+        asyncClient.addHeader("Authorization", "token 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")
         asyncClient.addHeader("User-Agent", "request")
         asyncClient.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
                 statusCode: Int,
-                headers: Array<out Header>,
+                headers: Array<out Header>?,
                 responseBody: ByteArray
             ) {
                 val result = String(responseBody)
                 Log.d(TAG, result)
                 try {
-                    val responObjects = JSONObject(result)
-                    val gson = Gson()
-                    val user = gson.fromJson(responObjects.toString(), User::class.java)
-                    detailUser.postValue(user)
+                    val responseObjects = JSONArray(result)
+                    for (i in 0 until responseObjects.length()) {
+                        val gson = Gson()
+                        val user = gson.fromJson(
+                            responseObjects.getJSONObject(i).toString(),
+                            User::class.java
+                        )
+                        listItemFollowing.add(user)
+                    }
+                    listFollowing.postValue(listItemFollowing)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -59,7 +67,7 @@ class DetailViewModel : ViewModel() {
         })
     }
 
-    fun getDetailUser(): LiveData<User> {
-        return detailUser
+    fun getFollowing(): LiveData<ArrayList<User>> {
+        return listFollowing
     }
 }

@@ -1,28 +1,28 @@
-package com.dicoding.picodiploma.submission2bfaa
+package com.dicoding.picodiploma.submission2bfaa.viewModel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.dicoding.picodiploma.submission2bfaa.model.User
 import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
 import org.json.JSONObject
 
-class MainViewModel : ViewModel() {
+class DetailViewModel : ViewModel() {
 
     companion object {
-        private val TAG = MainViewModel::class.java.simpleName
+        private val TAG = DetailViewModel::class.java.simpleName
     }
 
-    private val listUser = MutableLiveData<ArrayList<User>>()
+    val detailUser = MutableLiveData<User>()
 
-    fun setUser(users: String) {
-        val listItem = ArrayList<User>()
-        val url = "https://api.github.com/search/users?q=$users"
+    fun setDetailUser(users: String) {
+        val url = "https://api.github.com/users/$users"
         val asyncClient = AsyncHttpClient()
-        asyncClient.addHeader("Authorization", "token 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")
+        asyncClient.addHeader("Authorization", "token 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")
         asyncClient.addHeader("User-Agent", "request")
         asyncClient.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
@@ -33,15 +33,10 @@ class MainViewModel : ViewModel() {
                 val result = String(responseBody)
                 Log.d(TAG, result)
                 try {
-                    val responseObjects = JSONObject(result)
-                    val items = responseObjects.getJSONArray("items")
-                    for (i in 0 until items.length()) {
-                        val gson = Gson()
-                        val user =
-                            gson.fromJson(items.getJSONObject(i).toString(), User::class.java)
-                        listItem.add(user)
-                    }
-                    listUser.postValue(listItem)
+                    val responObjects = JSONObject(result)
+                    val gson = Gson()
+                    val user = gson.fromJson(responObjects.toString(), User::class.java)
+                    detailUser.postValue(user)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -65,7 +60,7 @@ class MainViewModel : ViewModel() {
         })
     }
 
-    fun getUser(): LiveData<ArrayList<User>> {
-        return listUser
+    fun getDetailUser(): LiveData<User> {
+        return detailUser
     }
 }

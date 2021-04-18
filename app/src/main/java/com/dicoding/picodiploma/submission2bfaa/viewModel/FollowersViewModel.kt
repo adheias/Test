@@ -1,9 +1,10 @@
-package com.dicoding.picodiploma.submission2bfaa
+package com.dicoding.picodiploma.submission2bfaa.viewModel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.dicoding.picodiploma.submission2bfaa.model.User
 import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
@@ -22,7 +23,7 @@ class FollowersViewModel : ViewModel() {
         val listItemFollowers = ArrayList<User>()
         val url = "https://api.github.com/users/$users/followers"
         val asyncClient = AsyncHttpClient()
-        asyncClient.addHeader("Authorization", "token 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")
+        asyncClient.addHeader("Authorization", "token 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")
         asyncClient.addHeader("User-Agent", "request")
         asyncClient.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(

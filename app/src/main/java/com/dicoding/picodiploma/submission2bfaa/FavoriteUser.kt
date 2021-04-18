@@ -4,8 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.picodiploma.submission2bfaa.adapter.ListUserAdapter
 import com.dicoding.picodiploma.submission2bfaa.databinding.ActivityFavoriteUserBinding
 import com.dicoding.picodiploma.submission2bfaa.db.UserHelper
+import com.dicoding.picodiploma.submission2bfaa.helper.MappingHelper
+import com.dicoding.picodiploma.submission2bfaa.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async

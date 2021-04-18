@@ -12,7 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.picodiploma.submission2bfaa.adapter.ListUserAdapter
 import com.dicoding.picodiploma.submission2bfaa.databinding.ActivityMainBinding
+import com.dicoding.picodiploma.submission2bfaa.model.User
+import com.dicoding.picodiploma.submission2bfaa.viewModel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

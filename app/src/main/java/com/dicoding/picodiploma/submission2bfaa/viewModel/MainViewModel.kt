@@ -1,48 +1,48 @@
-package com.dicoding.picodiploma.submission2bfaa
+package com.dicoding.picodiploma.submission2bfaa.viewModel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.dicoding.picodiploma.submission2bfaa.model.User
 import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
-import org.json.JSONArray
+import org.json.JSONObject
 
-class FollowingViewModel : ViewModel() {
+class MainViewModel : ViewModel() {
 
     companion object {
-        private val TAG = FollowingViewModel::class.java.simpleName
+        private val TAG = MainViewModel::class.java.simpleName
     }
 
-    private val listFollowing = MutableLiveData<ArrayList<User>>()
+    private val listUser = MutableLiveData<ArrayList<User>>()
 
-    fun setFollowing(users: String) {
-        val listItemFollowing = ArrayList<User>()
-        val url = "https://api.github.com/users/$users/following"
+    fun setUser(users: String) {
+        val listItem = ArrayList<User>()
+        val url = "https://api.github.com/search/users?q=$users"
         val asyncClient = AsyncHttpClient()
-        asyncClient.addHeader("Authorization", "token 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")
+        asyncClient.addHeader("Authorization", "token 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")
         asyncClient.addHeader("User-Agent", "request")
         asyncClient.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
                 statusCode: Int,
-                headers: Array<out Header>?,
+                headers: Array<out Header>,
                 responseBody: ByteArray
             ) {
                 val result = String(responseBody)
                 Log.d(TAG, result)
                 try {
-                    val responseObjects = JSONArray(result)
-                    for (i in 0 until responseObjects.length()) {
+                    val responseObjects = JSONObject(result)
+                    val items = responseObjects.getJSONArray("items")
+                    for (i in 0 until items.length()) {
                         val gson = Gson()
-                        val user = gson.fromJson(
-                            responseObjects.getJSONObject(i).toString(),
-                            User::class.java
-                        )
-                        listItemFollowing.add(user)
+                        val user =
+                            gson.fromJson(items.getJSONObject(i).toString(), User::class.java)
+                        listItem.add(user)
                     }
-                    listFollowing.postValue(listItemFollowing)
+                    listUser.postValue(listItem)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -66,7 +66,7 @@ class FollowingViewModel : ViewModel() {
         })
     }
 
-    fun getFollowing(): LiveData<ArrayList<User>> {
-        return listFollowing
+    fun getUser(): LiveData<ArrayList<User>> {
+        return listUser
     }
 }

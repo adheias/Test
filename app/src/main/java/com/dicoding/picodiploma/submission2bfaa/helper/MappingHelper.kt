@@ -1,7 +1,8 @@
-package com.dicoding.picodiploma.submission2bfaa
+package com.dicoding.picodiploma.submission2bfaa.helper
 
 import android.database.Cursor
 import com.dicoding.picodiploma.submission2bfaa.db.UserContract
+import com.dicoding.picodiploma.submission2bfaa.model.User
 
 object MappingHelper {
     fun mapCursorToArray(userCursor: Cursor?): ArrayList<User> {

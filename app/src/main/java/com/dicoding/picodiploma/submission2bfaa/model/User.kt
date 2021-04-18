@@ -1,4 +1,4 @@
-package com.dicoding.picodiploma.submission2bfaa
+package com.dicoding.picodiploma.submission2bfaa.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
