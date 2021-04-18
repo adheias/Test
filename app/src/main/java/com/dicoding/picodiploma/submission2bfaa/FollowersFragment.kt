@@ -55,7 +55,7 @@ private var _binding: FragmentFollowersBinding? = null
         if (arguments != null) {
             val username = arguments?.getString(ARG_USERNAME)
             followersViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(FollowersViewModel::class.java)
-
+            showLoading(true)
             if (username != null)
                 followersViewModel.setFollowers(username)
         }
@@ -63,7 +63,16 @@ private var _binding: FragmentFollowersBinding? = null
         followersViewModel.getFollowers().observe(viewLifecycleOwner, { listFollowers ->
             if (listFollowers != null) {
                 adapter.setData(listFollowers)
+                showLoading(false)
             }
         })
+    }
+
+    private fun showLoading(state: Boolean) {
+        if (state) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
+        }
     }
 }

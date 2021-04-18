@@ -14,7 +14,8 @@
         android:theme="@style/Theme.Submission2BFAA"
         tools:remove="android:appComponentFactory"
         tools:targetApi="p">
-        <activity android:name=".DetailUser"></activity>
+        <activity android:name=".FavoriteUser"></activity>
+        <activity android:name=".DetailUser" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

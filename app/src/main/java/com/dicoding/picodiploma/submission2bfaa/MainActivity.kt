@@ -4,7 +4,9 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -63,8 +65,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.option_menu, menu)
+        menuInflater.inflate(R.menu.option_menu, menu)
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = menu.findItem(R.id.search).actionView as SearchView
 
@@ -81,13 +82,39 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-        return true
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun localeSetting() {
+        startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
+    }
+
+    private fun favoritUser() {
+        startActivity(Intent(this@MainActivity, FavoriteUser::class.java))
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        setMode(item.itemId)
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun setMode(selectMode: Int) {
+        when (selectMode) {
+            R.id.action_change_settings -> {
+                localeSetting()
+            }
+            R.id.favorite_user -> {
+                favoritUser()
+            }
+        }
+
     }
 
     fun getDataUserFromApi(username: String) {
-        if(username.isEmpty()) return
+        if (username.isEmpty()) return
         showLoading(true)
         mainViewModel.setUser(username)
     }
+
 
 }

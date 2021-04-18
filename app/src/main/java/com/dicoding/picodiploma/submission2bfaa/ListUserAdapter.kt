@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.submission2bfaa.databinding.ItemRowUserBinding
 
 class ListUserAdapter : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
-    private val mData = ArrayList<User>()
+    var mData = ArrayList<User>()
     private var onItemClickCallback: OnItemClickCallback? = null
 
     fun setData(items: ArrayList<User>) {

@@ -22,10 +22,14 @@ class MainViewModel : ViewModel() {
         val listItem = ArrayList<User>()
         val url = "https://api.github.com/search/users?q=$users"
         val asyncClient = AsyncHttpClient()
-        asyncClient.addHeader("Authorization", "token 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")
+        asyncClient.addHeader("Authorization", "token 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")
         asyncClient.addHeader("User-Agent", "request")
         asyncClient.get(url, object : AsyncHttpResponseHandler() {
-            override fun onSuccess(statusCode: Int, headers: Array<out Header>, responseBody: ByteArray) {
+            override fun onSuccess(
+                statusCode: Int,
+                headers: Array<out Header>,
+                responseBody: ByteArray
+            ) {
                 val result = String(responseBody)
                 Log.d(TAG, result)
                 try {
@@ -33,7 +37,8 @@ class MainViewModel : ViewModel() {
                     val items = responseObjects.getJSONArray("items")
                     for (i in 0 until items.length()) {
                         val gson = Gson()
-                        val user = gson.fromJson(items.getJSONObject(i).toString(), User::class.java)
+                        val user =
+                            gson.fromJson(items.getJSONObject(i).toString(), User::class.java)
                         listItem.add(user)
                     }
                     listUser.postValue(listItem)
@@ -42,8 +47,19 @@ class MainViewModel : ViewModel() {
                 }
             }
 
-            override fun onFailure(statusCode: Int, headers: Array<out Header>, responseBody: ByteArray, error: Throwable) {
-                Log.d("onFailure", error.message.toString())
+            override fun onFailure(
+                statusCode: Int,
+                headers: Array<out Header>?,
+                responseBody: ByteArray?,
+                error: Throwable?
+            ) {
+                when (statusCode) {
+                    401 -> "$statusCode : Bad Request"
+                    403 -> "$statusCode : Forbidden"
+                    404 -> "$statusCode : Not Found"
+                    else -> "$statusCode : ${error?.message}"
+                }
+                Log.d("onFailure: ", error?.message.toString())
             }
 
         })

@@ -1,13 +1,15 @@
 package com.dicoding.picodiploma.submission2bfaa
 
+import android.content.ContentValues
 import android.os.Bundle
-import android.view.View
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.submission2bfaa.databinding.ActivityDetailUserBinding
+import com.dicoding.picodiploma.submission2bfaa.db.UserContract
+import com.dicoding.picodiploma.submission2bfaa.db.UserHelper
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -24,13 +26,20 @@ class DetailUser : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailUserBinding
     private lateinit var detailViewModel: DetailViewModel
+    private lateinit var userHelper: UserHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(DetailViewModel::class.java)
+        detailViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        ).get(DetailViewModel::class.java)
         val user = intent.getParcelableExtra<User>(EXTRA_USER) as User
+        val username = user.username
+        val avatar = user.avatar
+        val id = user.id
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
         sectionsPagerAdapter.username = user.username
         val viewPager: ViewPager2 = binding.viewPager
@@ -38,32 +47,58 @@ class DetailUser : AppCompatActivity() {
         val tabs: TabLayout = binding.tabs
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = resources.getString(
-                    TAB_TITLES[position])
+                TAB_TITLES[position]
+            )
         }.attach()
         supportActionBar?.elevation = 0f
         supportActionBar?.title = user.username
 
+        user.username.let {
+            if (it != null) {
+                detailViewModel.setDetailUser(it)
+            }
+        }
 
         detailViewModel.getDetailUser().observe(this, {
             binding.apply {
                 Glide.with(this@DetailUser)
-                        .load(it.avatar)
-                        .into(imgItemPhoto)
+                    .load(it.avatar)
+                    .into(imgItemPhoto)
                 tvRepo2.text = it.repository
                 tvFollowers2.text = it.followers
                 tvFollowing2.text = it.following
                 tvName.text = it.name
                 tvLocation.text = it.location
             }
-            showLoading(false)
         })
+
+        userHelper = UserHelper.getInstance(applicationContext)
+        userHelper.open()
+
+        var statusFavorite = false
+        setStatusFavorite(statusFavorite)
+        binding.fabAdd.setOnClickListener {
+            if (!statusFavorite) {
+                val values = ContentValues()
+                values.put(UserContract.UserColumns.USERNAME, username)
+                values.put(UserContract.UserColumns.AVATAR, avatar)
+                values.put(UserContract.UserColumns._ID, id)
+                statusFavorite = !statusFavorite
+                setStatusFavorite(statusFavorite)
+            } else {
+                statusFavorite = !statusFavorite
+                setStatusFavorite(statusFavorite)
+            }
+        }
+
     }
 
-    private fun showLoading(state: Boolean) {
-        if (state) {
-            binding.progressBar.visibility = View.VISIBLE
+    private fun setStatusFavorite(statusFavorite: Boolean) {
+        if (statusFavorite) {
+            binding.fabAdd.setImageResource(R.drawable.ic_baseline_favorite_24)
         } else {
-            binding.progressBar.visibility = View.GONE
+            binding.fabAdd.setImageResource(R.drawable.ic_baseline_favorite_border_24)
         }
     }
+
 }

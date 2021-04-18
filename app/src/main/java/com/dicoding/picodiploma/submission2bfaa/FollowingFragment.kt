@@ -55,7 +55,7 @@ class FollowingFragment : Fragment() {
         if (arguments != null) {
             val username = arguments?.getString(ARG_USERNAME)
             followingViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get((FollowingViewModel::class.java))
-
+            showLoading(true)
             if (username != null)
                 followingViewModel.setFollowing(username)
         }
@@ -63,7 +63,16 @@ class FollowingFragment : Fragment() {
         followingViewModel.getFollowing().observe(viewLifecycleOwner, { listFollowing ->
             if (listFollowing != null) {
                 adapter.setData(listFollowing)
+                showLoading(false)
             }
         })
+    }
+
+    private fun showLoading(state: Boolean) {
+        if (state) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
+        }
     }
 }
