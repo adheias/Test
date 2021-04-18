@@ -2,6 +2,7 @@ package com.dicoding.picodiploma.submission2bfaa
 
 import android.content.ContentValues
 import android.os.Bundle
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -83,12 +84,15 @@ class DetailUser : AppCompatActivity() {
 
         setStatusFavorite(statusFavorite)
         binding.fabAdd.setOnClickListener {
-            statusFavorite = !statusFavorite
-            if (statusFavorite) {
+
+            if (!statusFavorite) {
                 userHelper.insert(values)
+                Toast.makeText(this, "Berhasil ditambahkan ke favorite", Toast.LENGTH_SHORT).show()
             } else {
-                userHelper.deleteById("id")
+                userHelper.deleteById(user.id.toString())
+                Toast.makeText(this, "Dihapus dari favorite", Toast.LENGTH_SHORT).show()
             }
+            statusFavorite = !statusFavorite
             setStatusFavorite(statusFavorite)
         }
 

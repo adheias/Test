@@ -22,7 +22,7 @@ class FollowingViewModel : ViewModel() {
         val listItemFollowing = ArrayList<User>()
         val url = "https://api.github.com/users/$users/following"
         val asyncClient = AsyncHttpClient()
-        asyncClient.addHeader("Authorization", "token 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")
+        asyncClient.addHeader("Authorization", "token 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")
         asyncClient.addHeader("User-Agent", "request")
         asyncClient.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
