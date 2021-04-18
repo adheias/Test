@@ -14,7 +14,7 @@ internal class DatabaseHelper(context: Context) :
         private const val SQL_CREATE_TABLE_USER = "CREATE TABLE $TABLE_NAME" +
                 "(${UserContract.UserColumns._ID} INTEGER PRIMARY KEY," +
                 "${UserContract.UserColumns.USERNAME} TEXT NOT NULL," +
-                "${UserContract.UserColumns.AVATAR} TEXT NOT NULL UNIQUE)"
+                "${UserContract.UserColumns.AVATAR} TEXT NOT NULL)"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
