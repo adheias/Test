@@ -31,7 +31,7 @@ class DetailUser : AppCompatActivity() {
     private lateinit var binding: ActivityDetailUserBinding
     private lateinit var detailViewModel: DetailViewModel
     private lateinit var userHelper: UserHelper
-    private var statusFavorite = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +44,8 @@ class DetailUser : AppCompatActivity() {
                 ViewModelProvider.NewInstanceFactory()
         ).get(DetailViewModel::class.java)
         val user = intent.getParcelableExtra<User>(EXTRA_USER) as User
-        val username = user.username.toString()
-        val avatar = user.avatar.toString()
+        val username = user.username
+        val avatar = user.avatar
         val id = user.id
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
         sectionsPagerAdapter.username = user.username
@@ -85,18 +85,21 @@ class DetailUser : AppCompatActivity() {
         values.put(UserContract.UserColumns.USERNAME, username)
         values.put(UserContract.UserColumns.AVATAR, avatar)
 
+        var statusFavorite = false
         setStatusFavorite(statusFavorite)
         binding.fabAdd.setOnClickListener {
-
             if (!statusFavorite) {
+                statusFavorite = !statusFavorite
                 userHelper.insert(values)
+                setStatusFavorite(statusFavorite)
                 Toast.makeText(this, "Berhasil ditambahkan ke favorite", Toast.LENGTH_SHORT).show()
             } else {
+                statusFavorite = !statusFavorite
                 userHelper.deleteById(user.id.toString())
+                setStatusFavorite(statusFavorite)
                 Toast.makeText(this, "Dihapus dari favorite", Toast.LENGTH_SHORT).show()
             }
-            statusFavorite = !statusFavorite
-            setStatusFavorite(statusFavorite)
+
         }
 
     }

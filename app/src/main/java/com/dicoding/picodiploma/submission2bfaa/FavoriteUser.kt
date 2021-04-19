@@ -40,9 +40,10 @@ class FavoriteUser : AppCompatActivity() {
 
             val user = deferredUser.await()
             if (user.size > 0) {
-                adapter.mData = user
+                adapter.setData(user)
+                adapter.notifyDataSetChanged()
             } else {
-                adapter.mData = ArrayList()
+                adapter.setData(user)
             }
             userHelper.close()
         }
