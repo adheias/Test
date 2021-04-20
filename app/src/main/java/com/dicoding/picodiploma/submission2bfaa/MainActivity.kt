@@ -4,7 +4,6 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -88,12 +87,12 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    private fun localeSetting() {
-        startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
+    private fun favoriteUser() {
+        startActivity(Intent(this@MainActivity, FavoriteUser::class.java))
     }
 
-    private fun favoritUser() {
-        startActivity(Intent(this@MainActivity, FavoriteUser::class.java))
+    private fun preferenceSetting() {
+        startActivity(Intent(this@MainActivity, PreferenceScreen::class.java))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -104,13 +103,12 @@ class MainActivity : AppCompatActivity() {
     private fun setMode(selectMode: Int) {
         when (selectMode) {
             R.id.action_change_settings -> {
-                localeSetting()
+                preferenceSetting()
             }
             R.id.favorite_user -> {
-                favoritUser()
+                favoriteUser()
             }
         }
-
     }
 
     fun getDataUserFromApi(username: String) {
@@ -118,6 +116,4 @@ class MainActivity : AppCompatActivity() {
         showLoading(true)
         mainViewModel.setUser(username)
     }
-
-
 }

@@ -1,6 +1,7 @@
 package com.dicoding.picodiploma.submission2bfaa
 
 import android.content.ContentValues
+import android.database.Cursor
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -22,8 +23,8 @@ class DetailUser : AppCompatActivity() {
     companion object {
         @StringRes
         private val TAB_TITLES = intArrayOf(
-                R.string.tab_text_1,
-                R.string.tab_text_2
+            R.string.tab_text_1,
+            R.string.tab_text_2
         )
         const val EXTRA_USER = "extra_user"
     }
@@ -40,8 +41,8 @@ class DetailUser : AppCompatActivity() {
         userHelper = UserHelper.getInstance(applicationContext)
         userHelper.open()
         detailViewModel = ViewModelProvider(
-                this,
-                ViewModelProvider.NewInstanceFactory()
+            this,
+            ViewModelProvider.NewInstanceFactory()
         ).get(DetailViewModel::class.java)
         val user = intent.getParcelableExtra<User>(EXTRA_USER) as User
         val username = user.username
@@ -54,7 +55,7 @@ class DetailUser : AppCompatActivity() {
         val tabs: TabLayout = binding.tabs
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = resources.getString(
-                    TAB_TITLES[position]
+                TAB_TITLES[position]
             )
         }.attach()
         supportActionBar?.elevation = 0f
@@ -69,8 +70,8 @@ class DetailUser : AppCompatActivity() {
         detailViewModel.getDetailUser().observe(this, {
             binding.apply {
                 Glide.with(this@DetailUser)
-                        .load(it.avatar)
-                        .into(imgItemPhoto)
+                    .load(it.avatar)
+                    .into(imgItemPhoto)
                 tvRepo2.text = it.repository
                 tvFollowers2.text = it.followers
                 tvFollowing2.text = it.following
@@ -100,6 +101,12 @@ class DetailUser : AppCompatActivity() {
                 Toast.makeText(this, "Dihapus dari favorite", Toast.LENGTH_SHORT).show()
             }
 
+        }
+
+        val cursor: Cursor = userHelper.queryById(id.toString())
+        if (cursor.moveToNext()) {
+            statusFavorite = true
+            setStatusFavorite(statusFavorite)
         }
 
     }
