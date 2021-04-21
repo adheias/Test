@@ -7,15 +7,15 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <permission
+    <uses-permission
         android:name="com.dicoding.picodiploma.submission2bfaa.READ_DATABASE"
         android:protectionLevel="normal" />
-    <permission
+    <uses-permission
         android:name="com.dicoding.picodiploma.submission2bfaa.WRITE_DATABASE"
         android:protectionLevel="normal" />
 
-    <uses-permission android:name="com.dicoding.picodiploma.mynotesapp.READ_DATABASE" />
-    <uses-permission android:name="com.dicoding.picodiploma.mynotesapp.WRITE_DATABASE" />
+    <uses-permission android:name="com.dicoding.picodiploma.submission2bfaa.READ_DATABASE" />
+    <uses-permission android:name="com.dicoding.picodiploma.submission2bfaa.WRITE_DATABASE" />
 
     <application
         android:allowBackup="true"
@@ -31,8 +31,8 @@
             android:authorities="com.dicoding.picodiploma.submission2bfaa"
             android:enabled="true"
             android:exported="true"
-            android:readPermission="com.dicoding.mynotesapp.READ_DATABASE"
-            android:writePermission="com.dicoding.mynotesapp.WRITE_DATABASE" />
+            android:readPermission="com.dicoding.picodiploma.submission2bfaa.READ_DATABASE"
+            android:writePermission="com.dicoding.picodiploma.submission2bfaa.WRITE_DATABASE" />
 
         <activity android:name=".PreferenceScreen" />
         <activity android:name=".FavoriteUser" />
@@ -50,9 +50,9 @@
             android:enabled="true"
             android:exported="true" />
 
-        <queries>
-            <package android:name="com.dicoding.picodiploma.submission2bfaa" />
-        </queries>
+        <!--        <queries>-->
+        <!--            <package android:name="com.dicoding.picodiploma.submission2bfaa" />-->
+        <!--        </queries>-->
     </application>
 
 </manifest>
