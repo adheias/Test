@@ -2,6 +2,7 @@ package com.dicoding.picodiploma.submission2bfaa
 
 import android.content.ContentValues
 import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.submission2bfaa.adapter.SectionsPagerAdapter
 import com.dicoding.picodiploma.submission2bfaa.databinding.ActivityDetailUserBinding
 import com.dicoding.picodiploma.submission2bfaa.db.UserContract
+import com.dicoding.picodiploma.submission2bfaa.db.UserContract.UserColumns.Companion.CONTENT_URI
 import com.dicoding.picodiploma.submission2bfaa.db.UserHelper
 import com.dicoding.picodiploma.submission2bfaa.model.User
 import com.dicoding.picodiploma.submission2bfaa.viewModel.DetailViewModel
@@ -32,6 +34,7 @@ class DetailUser : AppCompatActivity() {
     private lateinit var binding: ActivityDetailUserBinding
     private lateinit var detailViewModel: DetailViewModel
     private lateinit var userHelper: UserHelper
+    private lateinit var uriWithId: Uri
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,12 +94,13 @@ class DetailUser : AppCompatActivity() {
         binding.fabAdd.setOnClickListener {
             if (!statusFavorite) {
                 statusFavorite = !statusFavorite
-                userHelper.insert(values)
+                contentResolver.insert(CONTENT_URI, values)
                 setStatusFavorite(statusFavorite)
                 Toast.makeText(this, "Berhasil ditambahkan ke favorite", Toast.LENGTH_SHORT).show()
             } else {
                 statusFavorite = !statusFavorite
-                userHelper.deleteById(user.id.toString())
+                uriWithId = Uri.parse("$CONTENT_URI/$id")
+                contentResolver.delete(uriWithId, null, null)
                 setStatusFavorite(statusFavorite)
                 Toast.makeText(this, "Dihapus dari favorite", Toast.LENGTH_SHORT).show()
             }

@@ -1,12 +1,15 @@
 package com.dicoding.picodiploma.submission2bfaa
 
 import android.content.Intent
+import android.database.ContentObserver
 import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.submission2bfaa.adapter.ListUserAdapter
 import com.dicoding.picodiploma.submission2bfaa.databinding.ActivityFavoriteUserBinding
-import com.dicoding.picodiploma.submission2bfaa.db.UserHelper
+import com.dicoding.picodiploma.submission2bfaa.db.UserContract.UserColumns.Companion.CONTENT_URI
 import com.dicoding.picodiploma.submission2bfaa.helper.MappingHelper
 import com.dicoding.picodiploma.submission2bfaa.model.User
 import kotlinx.coroutines.Dispatchers
@@ -25,16 +28,27 @@ class FavoriteUser : AppCompatActivity() {
 
         binding.rvUser.setHasFixedSize(true)
         showRecyclerList()
-        loadUserAsync()
 
+        val handlerThread = HandlerThread("DataObserver")
+        handlerThread.start()
+        val handler = Handler(handlerThread.looper)
+
+        val myObserver = object : ContentObserver(handler) {
+            override fun onChange(selfChange: Boolean) {
+                loadUserAsync()
+            }
+        }
+
+        contentResolver.registerContentObserver(CONTENT_URI, true, myObserver)
+
+        loadUserAsync()
     }
+
 
     private fun loadUserAsync() {
         GlobalScope.launch(Dispatchers.Main) {
-            val userHelper = UserHelper.getInstance(applicationContext)
-            userHelper.open()
             val deferredUser = async(Dispatchers.IO) {
-                val cursor = userHelper.queryAll()
+                val cursor = contentResolver.query(CONTENT_URI, null, null, null, null)
                 MappingHelper.mapCursorToArray(cursor)
             }
 
@@ -45,7 +59,6 @@ class FavoriteUser : AppCompatActivity() {
             } else {
                 adapter.setData(user)
             }
-            userHelper.close()
         }
     }
 
