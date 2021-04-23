@@ -9,6 +9,9 @@ class PreferenceScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preference_screen)
 
+        val actionbar = supportActionBar
+        actionbar!!.title = "Setting"
+
         supportFragmentManager.beginTransaction().add(R.id.setting_holder, MyPreferenceFragment())
             .commit()
     }

@@ -96,13 +96,13 @@ class DetailUser : AppCompatActivity() {
                 statusFavorite = !statusFavorite
                 contentResolver.insert(CONTENT_URI, values)
                 setStatusFavorite(statusFavorite)
-                Toast.makeText(this, "Berhasil ditambahkan ke favorite", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.add_fav, Toast.LENGTH_SHORT).show()
             } else {
                 statusFavorite = !statusFavorite
                 uriWithId = Uri.parse("$CONTENT_URI/$id")
                 contentResolver.delete(uriWithId, null, null)
                 setStatusFavorite(statusFavorite)
-                Toast.makeText(this, "Dihapus dari favorite", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.delete_fav, Toast.LENGTH_SHORT).show()
             }
 
         }

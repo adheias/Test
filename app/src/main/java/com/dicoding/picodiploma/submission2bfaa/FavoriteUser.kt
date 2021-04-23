@@ -21,6 +21,10 @@ class FavoriteUser : AppCompatActivity() {
     private lateinit var binding: ActivityFavoriteUserBinding
     private lateinit var adapter: ListUserAdapter
 
+    companion object {
+        private const val EXTRA_STATE = "EXTRA_STATE"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFavoriteUserBinding.inflate(layoutInflater)
@@ -41,7 +45,14 @@ class FavoriteUser : AppCompatActivity() {
 
         contentResolver.registerContentObserver(CONTENT_URI, true, myObserver)
 
-        loadUserAsync()
+        if (savedInstanceState == null) {
+            loadUserAsync()
+        } else {
+            val list = savedInstanceState.getParcelableArrayList<User>(EXTRA_STATE)
+            if (list != null) {
+                adapter.mData = list
+            }
+        }
     }
 
 
@@ -79,5 +90,10 @@ class FavoriteUser : AppCompatActivity() {
         val moveIntent = Intent(this@FavoriteUser, DetailUser::class.java)
         moveIntent.putExtra(DetailUser.EXTRA_USER, user)
         startActivity(moveIntent)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList(EXTRA_STATE, adapter.mData)
     }
 }

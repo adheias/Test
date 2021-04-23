@@ -27,7 +27,7 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     private fun sendNotification(context: Context) {
-        val intent = Intent(context, MainActivity::class.java)
+        val intent = Intent(context, SplashScreen::class.java)
         val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
 
         val mNotificationManager =

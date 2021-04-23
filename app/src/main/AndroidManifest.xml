@@ -7,37 +7,25 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <uses-permission
+    <permission
         android:name="com.dicoding.picodiploma.submission2bfaa.READ_DATABASE"
         android:protectionLevel="normal" />
-    <uses-permission
+    <permission
         android:name="com.dicoding.picodiploma.submission2bfaa.WRITE_DATABASE"
         android:protectionLevel="normal" />
 
-    <uses-permission android:name="com.dicoding.picodiploma.submission2bfaa.READ_DATABASE" />
-    <uses-permission android:name="com.dicoding.picodiploma.submission2bfaa.WRITE_DATABASE" />
-
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/unnamed"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Submission2BFAA"
         tools:remove="android:appComponentFactory"
         tools:targetApi="p">
-        <provider
-            android:name=".provider.UserProvider"
-            android:authorities="com.dicoding.picodiploma.submission2bfaa"
-            android:enabled="true"
-            android:exported="true"
-            android:readPermission="com.dicoding.picodiploma.submission2bfaa.READ_DATABASE"
-            android:writePermission="com.dicoding.picodiploma.submission2bfaa.WRITE_DATABASE" />
-
-        <activity android:name=".PreferenceScreen" />
-        <activity android:name=".FavoriteUser" />
-        <activity android:name=".DetailUser" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".SplashScreen"
+            android:theme="@style/Theme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,14 +33,23 @@
             </intent-filter>
         </activity>
 
+        <provider
+            android:name=".provider.UserProvider"
+            android:authorities="com.dicoding.picodiploma.submission2bfaa"
+            android:enabled="true"
+            android:exported="false"
+            android:readPermission="com.dicoding.picodiploma.submission2bfaa.READ_DATABASE"
+            android:writePermission="com.dicoding.picodiploma.submission2bfaa.WRITE_DATABASE" />
+
+        <activity android:name=".PreferenceScreen" />
+        <activity android:name=".FavoriteUser" />
+        <activity android:name=".DetailUser" />
+        <activity android:name=".MainActivity" />
+
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
             android:exported="true" />
-
-        <!--        <queries>-->
-        <!--            <package android:name="com.dicoding.picodiploma.submission2bfaa" />-->
-        <!--        </queries>-->
     </application>
 
 </manifest>

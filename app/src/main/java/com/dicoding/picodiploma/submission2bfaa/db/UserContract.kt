@@ -8,7 +8,7 @@ object UserContract {
     const val AUTHORITY = "com.dicoding.picodiploma.submission2bfaa"
     const val SCHEME = "content"
 
-    internal class UserColumns : BaseColumns {
+    class UserColumns : BaseColumns {
         companion object {
             const val TABLE_NAME = "favorite_user"
             const val _ID = "_id"

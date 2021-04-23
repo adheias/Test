@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Submission 2 BFAA</string>
+    <string name="app_name">Github User</string>
     <string name="username">Username</string>
     <string name="name">Name</string>
     <string name="search">Search</string>
@@ -26,4 +26,6 @@
     <string name="content_text">Find your friend on github</string>
     <string name="change_language">English</string>
     <string name="title">Change language</string>
+    <string name="add_fav">Succes add to favorite</string>
+    <string name="delete_fav">Deleted from favorite</string>
 </resources>

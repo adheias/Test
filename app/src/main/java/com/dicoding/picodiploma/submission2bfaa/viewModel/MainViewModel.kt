@@ -23,7 +23,7 @@ class MainViewModel : ViewModel() {
         val listItem = ArrayList<User>()
         val url = "https://api.github.com/search/users?q=$users"
         val asyncClient = AsyncHttpClient()
-        asyncClient.addHeader("Authorization", "token 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")
+        asyncClient.addHeader("Authorization", "token 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")
         asyncClient.addHeader("User-Agent", "request")
         asyncClient.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Submission 2 BFAA</string>
+    <string name="app_name">Github User</string>
     <string name="username">Username</string>
     <string name="name">Name</string>
     <string name="search">Cari</string>
@@ -27,4 +27,6 @@
     <string name="content_text">Cari teman anda di github</string>
     <string name="change_language">Indonesia</string>
     <string name="title">Ubah bahasa</string>
+    <string name="add_fav">Berhasil menambah ke favorite</string>
+    <string name="delete_fav">Dihapus dari favorite</string>
 </resources>
